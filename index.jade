@@ -11,10 +11,23 @@ html
 	body.container-fluid(style="padding-top: 57px")
 		nav.navbar.navbar-default.navbar-fixed-top
 			.container-fluid
-				h3.navbar-text all
+				// Brand and toggle get grouped for better mobile display
+				.navbar-header
+					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a.navbar-brand all
+				// Collect the nav links, forms, and other content for toggling
+				#bs-example-navbar-collapse-1.collapse.navbar-collapse
+					ul.nav.navbar-nav.navbar-right
+						li: a(onclick="refresh();") Refresh
 		//
 			h1.text-center The frontpage
 			hr
 		table#posts(width="100%")
-		script(type='text/javascript', src='js/main.js')
-		script(type='text/javascript', src='js/index.js')
+		script(type="text/javascript" src="js/jquery-2.2.0.min.js")
+		script(type="text/javascript" src="js/bootstrap.min.js")
+		script(type="text/javascript" src="js/main.js")
+		script(type="text/javascript" src="js/index.js")

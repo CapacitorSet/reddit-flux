@@ -75,7 +75,7 @@ function toPost(post) {
 		thumbnailHref.href = post.url;
 
 		var thumbnail = document.createElement("img");
-		thumbnail.className = "media-object";
+		thumbnail.className = "media-object thumbnail";
 		thumbnail.src = post.thumbnail;
 		thumbnailHref.appendChild(thumbnail);
 

@@ -29,3 +29,10 @@ body.container-fluid {
 	padding-left: 0px;
 	padding-right: 0px;
 }
+
+.thumbnail {
+	width: auto;
+	height: auto;
+	max-width: 140px;
+	max-height: 140px;
+}
