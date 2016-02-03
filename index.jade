@@ -2,9 +2,19 @@ doctype html
 html
 	head
 		meta(charset="utf-8")
-		title Hello World
-	body
-		h1(style="text-align: center") The frontpage
-		hr
+		link(rel="stylesheet",href="css/bootstrap.min.css")
+		link(rel="stylesheet",href="css/index.css")
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		title Reddit Flux
+	// Hides the navbar
+	body.container-fluid(style="padding-top: 60px")
+		nav.navbar.navbar-default.navbar-fixed-top
+			.container-fluid
+				h3.navbar-text all
+		//
+			h1.text-center The frontpage
+			hr
+		#posts
 		script(type='text/javascript', src='js/main.js')
 		script(type='text/javascript', src='js/index.js')

@@ -1,0 +1,19 @@
+.post {
+	border-style: solid;
+	border-left: 0px;
+	border-right: 0px;
+	border-top: 0px;
+	border-bottom: silver 1px;
+}
+
+.media-heading a {
+	color: black;
+}
+
+.upvotes, .author, .subreddit, .domain {
+	color: #808080;
+}
+
+.subreddit {
+	font-weight: bold;
+}

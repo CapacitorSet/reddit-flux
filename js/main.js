@@ -65,11 +65,69 @@ ajax.post = function (url, data, callback, async) {
 
 function toPost(post) {
 	console.log(post, post.title);
-	var div = document.createElement("div");
+	var row = document.createElement("div");
+	row.className = "row media post";
 
-	var header = document.createElement("h1");
-	header.textContent = post.title;
-	div.appendChild(header);
+	var hasThumbnail = post.thumbnail != "default" && post.thumbnail != "" && post.thumbnail != "self",
+		contentDiv = document.createElement("div");
 
-	return div;
+	if (hasThumbnail) {
+		var thumbnailHref = document.createElement("a");
+		thumbnailHref.href = post.url;
+
+		var thumbnail = document.createElement("img");
+		thumbnail.className = "media-object";
+		thumbnail.src = post.thumbnail;
+		thumbnailHref.appendChild(thumbnail);
+
+		var thumbnailDiv = document.createElement("div");
+		thumbnailDiv.className = "media-left";
+
+		thumbnailDiv.appendChild(thumbnailHref);
+		row.appendChild(thumbnailDiv);
+	}
+	contentDiv.className = "media-body";
+	row.appendChild(contentDiv);
+
+	var header = document.createElement("h4");
+	header.className = "media-heading";
+	if (post.url) {
+		link = document.createElement("a");
+		link.href = post.url;
+		link.textContent = post.title;
+		header.appendChild(link);
+	} else {
+		header.textContent = post.title;
+	}
+	contentDiv.appendChild(header);
+
+	// Middle row
+	var middleRow = document.createElement("div");
+	contentDiv.appendChild(middleRow);
+
+	var upvotesDiv = document.createElement("span");
+	upvotesDiv.className = "upvotes";
+	upvotesDiv.textContent =  post.score + "pts ";
+	middleRow.appendChild(upvotesDiv);
+
+	var authorDiv = document.createElement("span");
+	authorDiv.className = "author";
+	authorDiv.textContent = post.author + " ";
+	middleRow.appendChild(authorDiv);
+
+	// Bottom row
+	var bottomRow = document.createElement("div");
+	contentDiv.appendChild(bottomRow);
+
+	var subredditDiv = document.createElement("span");
+	subredditDiv.className = "subreddit";
+	subredditDiv.textContent = post.subreddit + " ";
+	bottomRow.appendChild(subredditDiv);
+
+	var domainDiv = document.createElement("a");
+	domainDiv.className = "domain";
+	domainDiv.href = domainDiv.textContent = post.domain + " ";
+	bottomRow.appendChild(domainDiv);
+
+	return row;
 }
