@@ -65,11 +65,10 @@ ajax.post = function (url, data, callback, async) {
 
 function toPost(post) {
 	console.log(post, post.title);
-	var row = document.createElement("div");
-	row.className = "row media post";
+	var row = document.createElement("tr");
+	row.className = "post";
 
-	var hasThumbnail = post.thumbnail != "default" && post.thumbnail != "" && post.thumbnail != "self",
-		contentDiv = document.createElement("div");
+	var hasThumbnail = post.thumbnail != "default" && post.thumbnail != "" && post.thumbnail != "self";
 
 	if (hasThumbnail) {
 		var thumbnailHref = document.createElement("a");
@@ -80,13 +79,18 @@ function toPost(post) {
 		thumbnail.src = post.thumbnail;
 		thumbnailHref.appendChild(thumbnail);
 
-		var thumbnailDiv = document.createElement("div");
-		thumbnailDiv.className = "media-left";
+		var thumbnailDiv = document.createElement("td");
+		//thumbnailDiv.className = "media-left";
 
 		thumbnailDiv.appendChild(thumbnailHref);
 		row.appendChild(thumbnailDiv);
 	}
-	contentDiv.className = "media-body";
+
+	var contentDiv = document.createElement("td");
+	if (!hasThumbnail)
+		contentDiv.colSpan = 2;
+
+	contentDiv.className = "link-content";
 	row.appendChild(contentDiv);
 
 	var header = document.createElement("h4");
@@ -100,6 +104,15 @@ function toPost(post) {
 		header.textContent = post.title;
 	}
 	contentDiv.appendChild(header);
+
+	var commentDiv = document.createElement("td");
+	commentDiv.className = "media-body text-center comment-count";
+	row.appendChild(commentDiv);
+	var commentHref = document.createElement("a");
+	commentDiv.appendChild(commentHref);
+	commentHref.href = "https://reddit.com" + post.permalink;
+	commentHref.innerHTML = '<span class="glyphicon glyphicon-comment"></span><br>' + post.num_comments;
+
 
 	// Middle row
 	var middleRow = document.createElement("div");

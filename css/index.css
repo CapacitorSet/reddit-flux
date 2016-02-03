@@ -1,12 +1,4 @@
-.post {
-	border-style: solid;
-	border-left: 0px;
-	border-right: 0px;
-	border-top: 0px;
-	border-bottom: silver 1px;
-}
-
-.media-heading a {
+a {
 	color: black;
 }
 
@@ -16,4 +8,24 @@
 
 .subreddit {
 	font-weight: bold;
+}
+
+.comment-count {
+	background-color: #e3e3e3;
+	width: 30px;
+}
+
+.post td {
+	border-bottom: silver 1px solid;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.link-content {
+	padding: 10px;
+}
+
+body.container-fluid {
+	padding-left: 0px;
+	padding-right: 0px;
 }
