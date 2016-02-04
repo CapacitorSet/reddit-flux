@@ -1,3 +1,7 @@
+// http://stackoverflow.com/a/21210643/1541408
+parameters = {};
+location.search.substr(1).split("&").forEach(function(item) {parameters[item.split("=")[0]] = item.split("=")[1]});
+
 function getCookie(cname) {
 	var name = cname + "=";
 	var ca = document.cookie.split(';');
@@ -30,37 +34,36 @@ function getClientId() {
 var ajax = {};
 
 ajax.send = function (url, callback, method, data, async) {
-    if (async === undefined) {
-        async = true;
-    }
-    var x = new XMLHttpRequest();
-    x.open(method, url, async);
-    x.onreadystatechange = function () {
-        if (x.readyState == 4) {
-            callback(x.responseText)
-        }
-    };
-    if (method == 'POST') {
-        x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	if (async === undefined)
+		async = true;
+
+	var x = new XMLHttpRequest();
+	x.open(method, url, async);
+	x.onreadystatechange = function () {
+		if (x.readyState == 4)
+			callback(x.responseText)
+	};
+	if (method == 'POST') {
+		x.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		x.setRequestHeader("Authorization", "Basic " + btoa("<CLIENT_ID>:"));
-    }
-    x.send(data)
+	}
+	x.send(data)
 };
 
 ajax.get = function (url, data, callback, async) {
-    var query = [];
-    for (var key in data) {
-        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
-    }
-    ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async)
+	var query = [];
+	for (var key in data) {
+		query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+	}
+	ajax.send(url + (query.length ? '?' + query.join('&') : ''), callback, 'GET', null, async)
 };
 
 ajax.post = function (url, data, callback, async) {
-    var query = [];
-    for (var key in data) {
-        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
-    }
-    ajax.send(url, callback, 'POST', query.join('&'), async)
+	var query = [];
+	for (var key in data) {
+		query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
+	}
+	ajax.send(url, callback, 'POST', query.join('&'), async)
 };
 
 function toPost(post) {
