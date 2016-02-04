@@ -1,7 +1,9 @@
 var path = "http://www.reddit.com/";
 
-if (parameters.subreddit)
+if (parameters.subreddit) {
 	path += "/r/" + parameters.subreddit;
+	document.getElementById("header").textContent = parameters.subreddit;	
+}
 
 path += ".json";
 

@@ -83,7 +83,7 @@ function toPost(post) {
 		thumbnailHref.appendChild(thumbnail);
 
 		var thumbnailDiv = document.createElement("td");
-		//thumbnailDiv.className = "media-left";
+		thumbnailDiv.className = "thumbnailDiv";
 
 		thumbnailDiv.appendChild(thumbnailHref);
 		row.appendChild(thumbnailDiv);
@@ -97,7 +97,7 @@ function toPost(post) {
 	row.appendChild(contentDiv);
 
 	var header = document.createElement("h4");
-	header.className = "media-heading";
+	header.className = "media-heading" + (post.stickied ? " sticky" : "");
 	if (post.url) {
 		link = document.createElement("a");
 		link.href = post.url;
@@ -144,6 +144,11 @@ function toPost(post) {
 	domainDiv.className = "domain";
 	domainDiv.href = domainDiv.textContent = post.domain + " ";
 	bottomRow.appendChild(domainDiv);
+
+	var dateDiv = document.createElement("span");
+	dateDiv.className = "date";
+	dateDiv.textContent = jQuery.timeago(new Date(post.created * 1000));
+	bottomRow.appendChild(dateDiv);
 
 	return row;
 }

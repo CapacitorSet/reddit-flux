@@ -2,7 +2,7 @@ a {
 	color: black;
 }
 
-.upvotes, .author, .subreddit, .domain {
+.upvotes, .author, .subreddit, .domain, .date {
 	color: #808080;
 }
 
@@ -35,4 +35,17 @@ body.container-fluid {
 	height: auto;
 	max-width: 140px;
 	max-height: 140px;
+}
+
+.thumbnailDiv {
+	width: 140px;
+}
+
+.sticky a {
+    font-weight: bold;
+    color: #228822;
+}
+
+.moderator {
+    color: #228822;
 }
