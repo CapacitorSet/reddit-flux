@@ -23,9 +23,23 @@ html
 				#bs-example-navbar-collapse-1.collapse.navbar-collapse
 					ul.nav.navbar-nav.navbar-right
 						li: a(onclick="refresh();") Refresh
-		//
-			h1.text-center The frontpage
-			hr
+						li: a(href="#" data-toggle="modal" data-target="#myModal") Go to subreddit
+
+		.modal.fade#myModal(tabindex='-1', role='dialog')
+			.modal-dialog
+				.modal-content
+					.modal-header
+						button.close(type='button', data-dismiss='modal')
+							span(aria-hidden='true') ×
+						h4.modal-title Go to subreddit
+					form.modal-body.form-inline.text-center(method="GET",action="/")
+						.form-group
+							.input-group
+								.input-group-addon /r/
+								input.form-control(type="text",name="subreddit")
+							| &nbsp;
+							input.btn.btn-primary(type="submit",value="OK")
+
 		table#posts(width="100%")
 		script(type="text/javascript" src="js/jquery-2.2.0.min.js")
 		script(type="text/javascript" src="js/bootstrap.min.js")
