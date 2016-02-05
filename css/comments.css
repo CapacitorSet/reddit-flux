@@ -50,6 +50,8 @@ body.container-fluid {
 	font-family: "Roboto Slab", Georgia, serif;
 */
 	font-size: 15px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 
 .comment-content, .comment-author {
@@ -58,4 +60,9 @@ body.container-fluid {
 
 .active-comment {
 	background-color: lightblue;
+	margin-left: 0px !important;
+}
+
+p {
+	margin: 0px;
 }

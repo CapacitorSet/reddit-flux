@@ -30,48 +30,57 @@ refresh = function(cb) {
 			}
 			document.getElementById("opTitle").textContent = op.title;
 
-			var parent = document.getElementById(op.name);
-			var handle = (reply, level) => {
-				var styleString = "border-left: 5px solid ";
+			var items = ["div"];
+			var traverse = (reply, level) => {
+				var styleString = "margin-left: " + (level-1) * 5 + "px; border-left: 5px solid ";
 				switch (level) {
 					case 0:
 						styleString = "none";
 						break;
 					case 1:
-						styleString += "#ddd";
+						styleString += "#690";
 						break;
 					case 2:
-						styleString += "#ccc";
+						styleString += "#099";
 						break;
 					case 3:
-						styleString += "#bbb";
+						styleString += "#36f";
 						break;
 					case 4:
-						styleString += "#aaa";
+						styleString += "#60c";
 						break;
 					case 5:
-						styleString += "#999";
+						styleString += "#f06";
 						break;
 					case 6:
-						styleString += "#888";
+						styleString += "#c60";
 						break;
 					case 7:
-						styleString += "#777";
+						styleString += "#c30";
 						break;
 					case 8:
 						styleString += "#666";
 						break;
 				}
-				console.log(reply);
 
-				var self = [
-					"div", {
-						class: "comment",
-						style: styleString
-					},
-					[
+				console.log(reply, reply.author)
+				if (!reply.author) {
+					items.push([
 						"div", {
-							class: "comment-body",
+							class: "loadmore",
+							style: styleString
+						},
+						[
+							"a",
+							"Load " + reply.children.length + " more comments [unsupported]"
+							//, JSON.stringify(reply)
+						]
+					]);
+				} else {
+					items.push([
+						"div", {
+							class: "comment",
+							style: styleString,
 							id: reply.id
 						},
 						[
@@ -87,45 +96,20 @@ refresh = function(cb) {
 							"div", {class: "comment-content"},
 							htmlDecode(reply.body_html)
 						]
-					]
-				];
-
-				if (!reply.author) {
-					self = [
-						"div", {
-							class: "loadmore",
-							style: styleString
-						},
-						[
-							"a",
-							"Load " + reply.children.length + " more comments [unsupported]"
-							//, JSON.stringify(reply)
-						]
-					];
+					]);
 				}
-
 				if (reply.replies && reply.replies.data.children.length > 0)
-					self = reply.replies.data.children.reduce(
-						(x, d) => {
-							x.push(handle(d.data, level + 1));
-							return x;
-						},
-						self
-					);
-
-				return self;
+					reply.replies.data.children.forEach(x => traverse(x.data, level + 1));
 			};
-			document.getElementById("postsContainer").innerHTML = replies.reduce(
-				(x, d) => x + make(handle(d, 0)),
-				""
-			);
+			replies.forEach(x => traverse(x, 0));
+			document.getElementById("postsContainer").innerHTML = make(items);
 			if (cb) cb();
 		}
 	);
 }
 
 refresh(function() {
-	Array.prototype.slice.call(document.getElementsByClassName("comment-body"))
+	Array.prototype.slice.call(document.getElementsByClassName("comment"))
 		.forEach(x => x.onclick = clickHandlerFactory(x.id));
 });
 
