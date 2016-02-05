@@ -63,7 +63,6 @@ refresh = function(cb) {
 						break;
 				}
 
-				console.log(reply, reply.author)
 				if (!reply.author) {
 					items.push([
 						"div", {
@@ -123,6 +122,10 @@ function clickHandlerFactory(id) {
 			active_comment = null;
 			self.className = self.className.replace("active-comment", "");
 		} else {
+			if (active_comment != null) {
+				var target = document.getElementById(active_comment);
+				target.className = target.className.replace("active-comment", "");				
+			}
 			active_comment = id;
 			self.className += " active-comment";
 		}
