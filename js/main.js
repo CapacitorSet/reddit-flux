@@ -66,10 +66,38 @@ ajax.post = function (url, data, callback, async) {
 	ajax.send(url, callback, 'POST', query.join('&'), async)
 };
 
+// make(["p", "Here is a ", ["a", { href:"http://www.google.com/" }, "link"], "."]);
+// -> "<p>Here is a <a href="http://www.google.com/">link</a>.</p>"
+function make(desc) {
+	var name = desc[0];
+	var attributes = desc[1];
+
+	var html = "<" + name;
+
+	var start = 1;
+	if (typeof attributes === "object" && attributes !== null && !Array.isArray(attributes)) {
+		for (var attr in attributes)
+			html += ' ' + attr + '="' + attributes[attr] + '"';
+		start = 2;
+	}
+
+	html += ">";
+
+	for (var i = start; i < desc.length; i++)
+		html += Array.isArray(desc[i]) ? make(desc[i]) : desc[i];
+
+	html += "</" + name + ">";
+
+	return html;
+}
+
 function toPost(post) {
 	console.log(post, post.title);
-	var row = document.createElement("tr");
-	row.className = "post";
+	var row = [
+		"tr", {
+			class: "post" + (post.over_18 ? " nsfw" : "")
+		}
+	];
 
 	var hasThumbnail =
 		post.thumbnail != "default" &&
@@ -77,90 +105,88 @@ function toPost(post) {
 		post.thumbnail != "self" &&
 		post.thumbnail != "nsfw";
 
-	if (hasThumbnail) {
-		var thumbnailHref = document.createElement("a");
-		thumbnailHref.href = post.url;
+	if (hasThumbnail)
+		row.push([
+			"td", {class: "thumbnailDiv"},
+			[
+				"a", {href: post.url},
+				[
+					"img", {
+						class: "media-object thumbnail",
+						src: post.thumbnail
+					}
+				]
+			]
+		]);
 
-		var thumbnail = document.createElement("img");
-		thumbnail.className = "media-object thumbnail";
-		thumbnail.src = post.thumbnail;
-		thumbnailHref.appendChild(thumbnail);
+	var header = [
+		"h4", {
+			class: "media-heading" + (post.stickied ? " sticky" : "")
+		}
+	];
 
-		var thumbnailDiv = document.createElement("td");
-		thumbnailDiv.className = "thumbnailDiv";
+	if (post.url)
+		header.push([
+			"a", {href: post.url},
+			post.title
+		]);
+	else
+		header.push(post.title);
 
-		thumbnailDiv.appendChild(thumbnailHref);
-		row.appendChild(thumbnailDiv);
-	}
+	var middleRow = [
+		"div",
+		[
+			"span", {class: "upvotes"},
+			post.score + "pts "
+		],
+		[
+			"span", {class: "author"},
+			post.author + " "
+		]
+	];
 
-	var contentDiv = document.createElement("td");
-	if (!hasThumbnail)
-		contentDiv.colSpan = 2;
+	var bottomRow = [
+		"div",
+		[
+			"span", {class: "subreddit"},
+			post.subreddit + " "
+		],
+		[
+			"span", {class: "domain"},
+			post.domain + " "
+		],
+		[
+			"span", {class: "date"},
+			jQuery.timeago(new Date(post.created * 1000)) + " "
+		]
+	];
 
-	contentDiv.className = "link-content";
-	row.appendChild(contentDiv);
+	if (post.over_18)
+		bottomRow.push([
+			"span", {class: "nsfw-label"},
+			"NSFW"
+		]);
 
-	var header = document.createElement("h4");
-	header.className = "media-heading" + (post.stickied ? " sticky" : "");
-	if (post.url) {
-		link = document.createElement("a");
-		link.href = post.url;
-		link.textContent = post.title;
-		header.appendChild(link);
-	} else {
-		header.textContent = post.title;
-	}
-	contentDiv.appendChild(header);
+	row.push([
+		"td", {
+			colspan: hasThumbnail ? 1 : 2,
+			class: "link-content"
+		},
+		header,
+		middleRow,
+		bottomRow
+	]);
 
-	var commentDiv = document.createElement("td");
-	commentDiv.className = "media-body text-center comment-count";
-	row.appendChild(commentDiv);
-	var commentHref = document.createElement("a");
-	commentDiv.appendChild(commentHref);
-	commentHref.href = "https://reddit.com" + post.permalink;
-	commentHref.innerHTML = '<span class="glyphicon glyphicon-comment"></span><br>' + post.num_comments;
+	row.push([
+		"td", {class: "media-body text-center comment-count"},
+		[
+			"a", {href: "https://reddit.com" + post.permalink},
+			'<span class="glyphicon glyphicon-comment"></span><br>',
+			post.num_comments			
+		]
+	]);
 
-
-	// Middle row
-	var middleRow = document.createElement("div");
-	contentDiv.appendChild(middleRow);
-
-	var upvotesDiv = document.createElement("span");
-	upvotesDiv.className = "upvotes";
-	upvotesDiv.textContent =  post.score + "pts ";
-	middleRow.appendChild(upvotesDiv);
-
-	var authorDiv = document.createElement("span");
-	authorDiv.className = "author";
-	authorDiv.textContent = post.author + " ";
-	middleRow.appendChild(authorDiv);
-
-	// Bottom row
-	var bottomRow = document.createElement("div");
-	contentDiv.appendChild(bottomRow);
-
-	var subredditDiv = document.createElement("span");
-	subredditDiv.className = "subreddit";
-	subredditDiv.textContent = post.subreddit + " ";
-	bottomRow.appendChild(subredditDiv);
-
-	var domainDiv = document.createElement("a");
-	domainDiv.className = "domain";
-	domainDiv.href = domainDiv.textContent = post.domain + " ";
-	bottomRow.appendChild(domainDiv);
-
-	var dateDiv = document.createElement("span");
-	dateDiv.className = "date";
-	dateDiv.textContent = jQuery.timeago(new Date(post.created * 1000)) + " ";
-	bottomRow.appendChild(dateDiv);
-
-	if (post.over_18) {
-		row.className += " nsfw";
-		var nsfwDiv = document.createElement("span");
-		nsfwDiv.className = "nsfw-label";
-		nsfwDiv.textContent = "NSFW";
-		bottomRow.appendChild(nsfwDiv);		
-	}
+	console.log(row, make(row));
 
 	return row;
 }
