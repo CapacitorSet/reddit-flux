@@ -15,7 +15,7 @@ refresh = function() {
 		data => {
 			data = JSON.parse(data);
 			posts = data.data.children;
-			console.log(posts[0]);
+
 			document.getElementById("posts").innerHTML = posts.reduce(
 				(x, post) => x + make(toPost(post.data)),
 				""

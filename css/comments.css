@@ -56,7 +56,6 @@ body.container-fluid {
 	padding-left: 5px;
 }
 
-/*
-border-left: 5px solid green;
-padding-left: 5px;
-*/
+.active-comment {
+	background-color: lightblue;
+}
