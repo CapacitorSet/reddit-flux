@@ -92,7 +92,6 @@ function make(desc) {
 }
 
 function toPost(post) {
-	console.log(post, post.title);
 	var row = [
 		"tr", {
 			class: "post" + (post.over_18 ? " nsfw" : "")
@@ -127,7 +126,7 @@ function toPost(post) {
 
 	if (post.url)
 		header.push([
-			"a", {href: post.url},
+			"a", {href: post.is_self ? "/comments.html?id=" + post.id : post.url},
 			post.title
 		]);
 	else
@@ -180,13 +179,11 @@ function toPost(post) {
 	row.push([
 		"td", {class: "media-body text-center comment-count"},
 		[
-			"a", {href: "https://reddit.com" + post.permalink},
+			"a", {href: "/comments.html?id=" + post.id},
 			'<span class="glyphicon glyphicon-comment"></span><br>',
 			post.num_comments			
 		]
 	]);
-
-	console.log(row, make(row));
 
 	return row;
 }
