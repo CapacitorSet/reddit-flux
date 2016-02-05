@@ -49,3 +49,16 @@ body.container-fluid {
 .moderator {
     color: #228822;
 }
+
+.nsfw-label {
+	font-family: Consolas, "Courier New";
+	color: red;
+}
+
+.post.nsfw {
+	background-color: #fdd;
+}
+
+.post.nsfw .comment-count {
+	background-color: #d77;
+}

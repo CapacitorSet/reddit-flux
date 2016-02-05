@@ -71,7 +71,11 @@ function toPost(post) {
 	var row = document.createElement("tr");
 	row.className = "post";
 
-	var hasThumbnail = post.thumbnail != "default" && post.thumbnail != "" && post.thumbnail != "self";
+	var hasThumbnail =
+		post.thumbnail != "default" &&
+		post.thumbnail != "" &&
+		post.thumbnail != "self" &&
+		post.thumbnail != "nsfw";
 
 	if (hasThumbnail) {
 		var thumbnailHref = document.createElement("a");
@@ -147,8 +151,16 @@ function toPost(post) {
 
 	var dateDiv = document.createElement("span");
 	dateDiv.className = "date";
-	dateDiv.textContent = jQuery.timeago(new Date(post.created * 1000));
+	dateDiv.textContent = jQuery.timeago(new Date(post.created * 1000)) + " ";
 	bottomRow.appendChild(dateDiv);
+
+	if (post.over_18) {
+		row.className += " nsfw";
+		var nsfwDiv = document.createElement("span");
+		nsfwDiv.className = "nsfw-label";
+		nsfwDiv.textContent = "NSFW";
+		bottomRow.appendChild(nsfwDiv);		
+	}
 
 	return row;
 }
