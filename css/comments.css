@@ -1,0 +1,62 @@
+.subreddit, .domain, .comment-date, .comment-score {
+	color: #808080;
+}
+
+.subreddit {
+	font-weight: bold;
+}
+
+.comment-count {
+	background-color: #e3e3e3;
+	width: 30px;
+}
+
+.link-content {
+	padding: 10px;
+}
+
+body.container-fluid {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.thumbnail {
+	width: auto;
+	height: auto;
+	max-width: 140px;
+	max-height: 140px;
+}
+
+.thumbnailDiv {
+	width: 140px;
+}
+
+.comment-author {
+	font-weight: bold;
+}
+
+.sticky a {
+    font-weight: bold;
+    color: #228822;
+}
+
+.moderator {
+    color: #228822;
+}
+
+.comment {
+	border-top: 1px silver solid;
+/*
+	font-family: "Roboto Slab", Georgia, serif;
+*/
+	font-size: 15px;
+}
+
+.comment-content, .comment-author {
+	padding-left: 5px;
+}
+
+/*
+border-left: 5px solid green;
+padding-left: 5px;
+*/
