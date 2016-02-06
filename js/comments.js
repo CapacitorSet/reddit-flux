@@ -128,13 +128,11 @@ var active_comment = null; // ID of the currently highlighted comment
 
 function clickHandlerFactory(id) {
 	return function(event) {
-		if (active_comment != null) {
-			deactivate();
-		}
 		if (active_comment != id) {
 			deactivate();
-		} else {
 			activate(id);
+		} else {
+			deactivate();
 		}
 	}
 }
@@ -146,6 +144,8 @@ function activate(id) {
 }
 
 function deactivate() {
+	if (active_comment == null) return;
 	var target = document.getElementById(active_comment);
 	target.className = target.className.replace("active-comment", "");
+	active_comment = null;
 }
