@@ -97,7 +97,7 @@ refresh = function(cb) {
 							id: reply.id
 						},
 						[
-							"span", {class: "comment-author"},
+							"span", {class: "comment-author" + (reply.author == op.author ? " comment-op" : "")},
 							reply.author + " "
 						], [
 							"span", {class: "comment-score"},
