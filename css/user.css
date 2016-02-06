@@ -2,24 +2,37 @@
 	background-color: #f2f2f2;
 }
 
+.title {
+	color: black;
+}
+
 .body {
 }
 
-.title h4 {
+.title {
 	margin-top: 3px;
 	margin-bottom: 3px;
+	display: block;
 }
 
-.title td h4, .body td {
+.body {
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
-/**/
+.comment-subreddit {
+	font-weight: bold;
+}
 
-a {
+.comment-score, .comment-date {
+	color: #808080;
+}
+
+.media-heading a, .media-body a {
 	color: black;
 }
+
+/**/
 
 .upvotes, .author, .subreddit, .domain, .date {
 	color: #808080;

@@ -12,7 +12,7 @@ refresh = function() {
 			posts = data.data.children;
 
 			document.getElementById("posts").innerHTML = posts.reduce(
-				(x, post) => {console.log(toPost(post.data));return x + toPost(post.data)},
+				(x, post) => x + make(toPost(post.data)),
 				""
 			);
 		}
@@ -24,10 +24,14 @@ function toPost(post) {
 	var row;
 	if (post.link_title) {
 		return make([
-			"tr", {class: "title"},
+			"tr",
 			[
-				"td", {colspan: 3}, [
-					"a", {href: "./comments.html?id=" + post.id},
+				"td", {colspan: 3},
+				[
+					"a", {
+						href: "./comments.html?id=" + post.id,
+						class: "title"
+					},
 					[
 						"h4",
 						post.link_title
@@ -35,17 +39,27 @@ function toPost(post) {
 				]
 			]
 		]) + make([
-			"tr", {class: "body"},
+			"tr",
 			[
-				"td", {colspan: 3},
+				"td", {colspan: 3, class: "body"},
+				[
+					"span", {class: "comment-subreddit"},
+					post.subreddit + " "
+				], [
+					"span", {class: "comment-score"},
+					post.score + "pts "
+				], [
+					"span", {class: "comment-date"},
+					jQuery.timeago(new Date(post.created * 1000))
+				],
 				htmlDecode(post.body_html)
 			]
 		]);
 	} else {
-		return make([
+		return [
 			"tr", {class: "post"},
 			makePost(post)
-		]);
+		];
 	}
 }
 
