@@ -17,7 +17,7 @@ refresh = function() {
 			posts = data.data.children;
 
 			document.getElementById("posts").innerHTML = posts.reduce(
-				(x, post) => x + make(toPost(post.data)),
+				(x, post) => x + make(makePost(post.data)),
 				""
 			);
 		}

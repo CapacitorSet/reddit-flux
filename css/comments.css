@@ -1,8 +1,8 @@
-.post-subreddit, .post-domain, .post-date, .comment-date, .post-score, .comment-score, .post-author {
+#post-subreddit, #post-domain, #post-date, .comment-date, #post-score, .comment-score, #post-author {
 	color: #808080;
 }
 
-.post-subreddit {
+#post-subreddit {
 	font-weight: bold;
 }
 
@@ -19,8 +19,8 @@ body.container-fluid {
 	padding-left: 0px;
 	padding-right: 0px;
 }
-
-.thumbnail {
+/*
+#thumbnail {
 	width: auto;
 	height: auto;
 	max-width: 140px;
@@ -30,7 +30,7 @@ body.container-fluid {
 .thumbnailDiv {
 	width: 140px;
 }
-
+*/
 .comment-author {
 	font-weight: bold;
 }
@@ -77,4 +77,9 @@ p {
 
 .comment-op {
 	color: #f06;
+}
+
+#buttonsRow .btn {
+	height: 50px;
+	text-align: center;
 }

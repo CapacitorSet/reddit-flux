@@ -1,10 +1,3 @@
-// http://stackoverflow.com/a/1912522/1541408
-function htmlDecode(input) {
-	var e = document.createElement('div');
-	e.innerHTML = input;
-	return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
-}
-
 var path = "http://www.reddit.com/" + parameters.id + ".json";
 
 // https://gist.github.com/green-flash/8c9ac15f48291ab0524b
@@ -40,9 +33,14 @@ refresh = function(cb) {
 				document.getElementById("mediaDiv").outerHTML = "";
 				document.getElementById("opText").innerHTML = htmlDecode(op.selftext_html);
 			} else {
+				document.getElementById("thumbnail").src = op.thumbnail;
 				document.getElementById("opText").outerHTML = "";
 			}
 			document.getElementById("opTitle").textContent = op.title;
+
+			document.getElementById("commentCount").textContent = op.num_comments;
+
+			document.getElementById("hrefAuthor").href = "./user.html?name=" + op.author;
 
 			var items = ["div"];
 			var traverse = (reply, level) => {
@@ -130,18 +128,24 @@ var active_comment = null; // ID of the currently highlighted comment
 
 function clickHandlerFactory(id) {
 	return function(event) {
-		var self = document.getElementById(id);
-
-		if (active_comment == id) {
-			active_comment = null;
-			self.className = self.className.replace("active-comment", "");
+		if (active_comment != null) {
+			deactivate();
+		}
+		if (active_comment != id) {
+			deactivate();
 		} else {
-			if (active_comment != null) {
-				var target = document.getElementById(active_comment);
-				target.className = target.className.replace("active-comment", "");				
-			}
-			active_comment = id;
-			self.className += " active-comment";
+			activate(id);
 		}
 	}
+}
+
+function activate(id) {
+	var self = document.getElementById(id);
+	active_comment = id;
+	self.className += " active-comment";
+}
+
+function deactivate() {
+	var target = document.getElementById(active_comment);
+	target.className = target.className.replace("active-comment", "");
 }

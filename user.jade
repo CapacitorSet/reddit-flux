@@ -3,12 +3,12 @@ html
 	head
 		meta(charset="utf-8")
 		link(rel="stylesheet",href="css/bootstrap.min.css")
-		link(rel="stylesheet",href="css/comments.css")
+		link(rel="stylesheet",href="css/user.css")
 		meta(http-equiv="X-UA-Compatible" content="IE=edge")
 		meta(name="viewport" content="width=device-width, user-scalable=no, initial-scale=1")
 		title Reddit Flux
 	// Hides the navbar
-	body.container-fluid(style="padding-top: 35px")
+	body.container-fluid(style="padding-top: 40px")
 		nav.navbar.navbar-default.navbar-fixed-top
 			.container-fluid
 				// Brand and toggle get grouped for better mobile display
@@ -20,7 +20,7 @@ html
 						span.icon-bar
 					a.navbar-brand(onclick="window.history.back()")
 						span.glyphicon.glyphicon-chevron-left
-					a.navbar-brand#header all
+					a.navbar-brand#header overview
 				// Collect the nav links, forms, and other content for toggling
 				#bs-example-navbar-collapse-1.collapse.navbar-collapse
 					ul.nav.navbar-nav.navbar-right
@@ -43,60 +43,10 @@ html
 							.btn.btn-primary(onclick="document.location='./index.html?subreddit='+document.getElementById('subredditInput').value") OK
 
 
-		#originalPost.media
-			// hr
-			div
-				div(style="padding-left: 20px; padding-top: 5px; padding-bottom: 5px")
-					span#post-subreddit subreddit
-					|  
-					span#post-domain domain
-					|  
-					span#post-date date
-					hr(style="margin: 2px")
-					span#post-score score
-					|  (
-					span#post-updoots up
-					| &nbsp;|&nbsp;
-					span#post-downdoots down
-					| ) 
-					span#post-author author
-					br
-				.well(style="margin-bottom:0px")
-					.media-body
-						h4#opTitle.media-heading title
-						p#opText
-					#mediaDiv.media-right
-						img#thumbnail.media-object
-					br
-					#buttonsRow.row
-						// buttons
-						.col-xs-2.btn.btn-default
-							span.glyphicon.glyphicon-arrow-up.vcenter
-							br
-							i Up
-						.col-xs-2.btn.btn-default
-							span.glyphicon.glyphicon-arrow-down.vcenter
-							br
-							i Down
-						.col-xs-2.btn.btn-default
-							span.glyphicon.glyphicon-star.vcenter
-							br
-							i Fav
-						a#hrefAuthor
-							.col-xs-2.btn.btn-default
-								span.glyphicon.glyphicon-user
-								br
-								i OP
-						.col-xs-2
-						.col-xs-2.btn.btn-default
-							span.glyphicon.glyphicon-comment
-							br
-							span#commentCount
-
-		#postsContainer
+		table#posts
 
 		script(type="text/javascript" src="js/jquery-2.2.0.min.js")
 		script(type="text/javascript" src="js/bootstrap.min.js")
 		script(type="text/javascript" src="js/timeago.js")
 		script(type="text/javascript" src="js/main.js")
-		script(type="text/javascript" src="js/comments.js")
+		script(type="text/javascript" src="js/user.js")

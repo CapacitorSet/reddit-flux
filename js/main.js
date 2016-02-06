@@ -2,6 +2,13 @@
 parameters = {};
 location.search.substr(1).split("&").forEach(function(item) {parameters[item.split("=")[0]] = item.split("=")[1]});
 
+// http://stackoverflow.com/a/1912522/1541408
+function htmlDecode(input) {
+	var e = document.createElement('div');
+	e.innerHTML = input;
+	return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+}
+
 function getCookie(cname) {
 	var name = cname + "=";
 	var ca = document.cookie.split(';');
@@ -91,7 +98,7 @@ function make(desc) {
 	return html;
 }
 
-function toPost(post) {
+function makePost(post) {
 	var row = [
 		"tr", {
 			class: "post" + (post.over_18 ? " nsfw" : "")
@@ -126,7 +133,7 @@ function toPost(post) {
 
 	if (post.url)
 		header.push([
-			"a", {href: post.is_self ? "/comments.html?id=" + post.id : post.url},
+			"a", {href: post.is_self ? "./comments.html?id=" + post.id : post.url},
 			post.title
 		]);
 	else
@@ -179,7 +186,7 @@ function toPost(post) {
 	row.push([
 		"td", {class: "media-body text-center comment-count"},
 		[
-			"a", {href: "/comments.html?id=" + post.id},
+			"a", {href: "./comments.html?id=" + post.id},
 			'<span class="glyphicon glyphicon-comment"></span><br>',
 			post.num_comments			
 		]
