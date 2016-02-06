@@ -32,15 +32,15 @@ html
 						button.close(type='button', data-dismiss='modal')
 							span(aria-hidden='true') ×
 						h4.modal-title Go to subreddit
-					form.modal-body.form-inline.text-center(method="GET",action="/")
+					form.modal-body.form-inline.text-center
 						.form-group
 							.input-group
 								.input-group-addon /r/
-								input.form-control(type="text",name="subreddit")
+								input.form-control#subredditInput(type="text",name="subreddit")
 							| &nbsp;
-							input.btn.btn-primary(type="submit",value="OK")
+							.btn.btn-primary(onclick="document.location='./index.html?subreddit='+document.getElementById('subredditInput').value") OK
 
-		table#posts(width="100%")
+		table#posts
 		script(type="text/javascript" src="js/jquery-2.2.0.min.js")
 		script(type="text/javascript" src="js/bootstrap.min.js")
 		script(type="text/javascript" src="js/timeago.js")
