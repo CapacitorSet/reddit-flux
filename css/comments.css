@@ -1,8 +1,8 @@
-.subreddit, .domain, .comment-date, .comment-score {
+.post-subreddit, .post-domain, .post-date, .comment-date, .post-score, .comment-score, .post-author {
 	color: #808080;
 }
 
-.subreddit {
+.post-subreddit {
 	font-weight: bold;
 }
 
@@ -65,4 +65,12 @@ body.container-fluid {
 
 p {
 	margin: 0px;
+}
+
+#post-updoots {
+	color: red;
+}
+
+#post-downdoots {
+	color: blue;
 }

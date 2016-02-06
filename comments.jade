@@ -45,13 +45,22 @@ html
 		#originalPost.media.well
 			#mediaDiv.media-left
 			.media-object
-				span#subreddit.subreddit subreddit
-				| &nbsp;
-				span#domain.domain domain
-				| &nbsp;
-				span#date.date date
+				div
+					span#post-subreddit subreddit
+					| &nbsp;
+					span#post-domain domain
+					| &nbsp;
+					span#post-date date
+				div
+					span#post-score score
+					| &nbsp;(
+					span#post-updoots up
+					| |
+					span#post-downdoots down
+					| )&nbsp;
+					span#post-author author
 				// hr
-				h3#opTitle.media-heading test
+				h3#opTitle.media-heading title
 				p#opText
 
 		#postsContainer

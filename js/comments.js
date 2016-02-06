@@ -7,6 +7,11 @@ function htmlDecode(input) {
 
 var path = "http://www.reddit.com/" + parameters.id + ".json";
 
+// https://gist.github.com/green-flash/8c9ac15f48291ab0524b
+function calcUpvotes(score, upvoteRatio) {
+	return Math.round((upvoteRatio * score) / (2 * upvoteRatio - 1));
+}
+
 refresh = function(cb) {
 	ajax.get(
 		path,
@@ -17,10 +22,19 @@ refresh = function(cb) {
 			var op = data[0].data.children[0].data,
 				replies = data[1].data.children.map(x => x.data);
 
-			document.getElementById("subreddit").textContent = 
+			console.log(op);
+
+			document.getElementById("post-subreddit").textContent = 
 				document.getElementById("header").textContent = op.subreddit;
-			document.getElementById("domain").textContent = op.domain;
-			document.getElementById("date").textContent = jQuery.timeago(new Date(op.created * 1000));
+			document.getElementById("post-domain").textContent = op.domain;
+			document.getElementById("post-date").textContent = jQuery.timeago(new Date(op.created * 1000));
+			document.getElementById("post-author").textContent = op.author;
+
+			document.getElementById("post-score").textContent = op.score + "pts";
+			var upvotes = op.score == 0 ? 0 : calcUpvotes(op.score, op.upvote_ratio),
+				downvotes = upvotes - op.score;
+			document.getElementById("post-updoots").textContent = upvotes;
+			document.getElementById("post-downdoots").textContent = downvotes;
 
 			if (op.is_self) {
 				document.getElementById("mediaDiv").outerHTML = "";
