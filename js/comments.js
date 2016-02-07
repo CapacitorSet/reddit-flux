@@ -1,4 +1,5 @@
-var path = "http://www.reddit.com/" + parameters.id + ".json";
+var path = "http://www.reddit.com/" + parameters.id + ".json",
+	authors = []; // Global, so that it can be reused for the buttons
 
 // https://gist.github.com/green-flash/8c9ac15f48291ab0524b
 function calcUpvotes(score, upvoteRatio) {
@@ -43,6 +44,7 @@ refresh = function(cb) {
 			var items = ["div"];
 			// todo: nest using html children
 			var traverse = (reply, level) => {
+				var self = [];
 				var styleString = "margin-left: " + (level-1) * 5 + "px; border-left: 5px solid ";
 				switch (level) {
 					case 0:
@@ -74,8 +76,11 @@ refresh = function(cb) {
 						break;
 				}
 
+				authors[reply.id] = reply.author;
+
 				if (!reply.author) {
-					items.push([
+					if (!reply.children) return ["span"];
+					self = [
 						"div", {
 							class: "loadmore",
 							style: styleString
@@ -85,39 +90,43 @@ refresh = function(cb) {
 							"Load " + reply.children.length + " more comments [unsupported]"
 							//, JSON.stringify(reply)
 						]
-					]);
+					];
 				} else {
-					items.push([
-						"div", {
-							class: "comment",
-							style: styleString,
-							id: reply.id
-						},
-						[
-							"span", {class: "comment-author" + (reply.author == op.author ? " comment-op" : "")},
-							reply.author + " "
-						], [
-							"span", {class: "comment-score"},
-							reply.score + "pts "
-						], [
-							"span", {class: "comment-date"},
-							jQuery.timeago(new Date(reply.created * 1000)) + " "
-						], [
-							"span", {
-								class: reply.controversiality ? "glyphicon glyphicon-fire" : "hide",
-								style: "color: orange"
-							}
-						], [
-							"div", {class: "comment-content"},
-							htmlDecode(reply.body_html)
+					self = [
+						"div", [
+							"div", {
+								class: "comment",
+								style: styleString,
+								id: reply.id
+							},
+							[
+								"span", {class: "comment-author" + (reply.author == op.author ? " comment-op" : "")},
+								reply.author + " "
+							], [
+								"span", {class: "comment-score"},
+								reply.score + "pts "
+							], [
+								"span", {class: "comment-date"},
+								jQuery.timeago(new Date(reply.created * 1000)) + " "
+							], [
+								"span", {
+									class: reply.controversiality ? "glyphicon glyphicon-fire" : "hide",
+									style: "color: orange"
+								}
+							], [
+								"div", {class: "comment-content"},
+								htmlDecode(reply.body_html)
+							]
 						]
-					]);
+					];
 				}
 				if (reply.replies && reply.replies.data.children.length > 0)
-					reply.replies.data.children.forEach(x => traverse(x.data, level + 1));
+					reply.replies.data.children.forEach(x => self.push(traverse(x.data, level + 1)));
+				return self;
 			};
-			replies.forEach(x => traverse(x, 0));
-			document.getElementById("postsContainer").innerHTML = make(items);
+			var a = replies.reduce((x, d) => {x.push(traverse(d, 0));return x}, []);
+			a.unshift("div");
+			document.getElementById("postsContainer").innerHTML = make(a);
 			if (cb) cb();
 		}
 	);
@@ -145,6 +154,23 @@ function activate(id) {
 	var self = document.getElementById(id);
 	active_comment = id;
 	self.className += " active-comment";
+	var bar = document.createElement("table");
+	bar.id = "commentButtons"
+	bar.innerHTML = make([
+		"tr", [
+			["td", ""],
+			["td", ["span", {class: "glyphicon glyphicon-arrow-up disabled"}]],
+			["td", ["span", {class: "glyphicon glyphicon-arrow-down disabled"}]],
+			["td", ["span", {class: "glyphicon glyphicon-comment disabled"}]],
+			["td", ["a", {
+				class: "glyphicon glyphicon-user",
+				href: "./user.html?name=" + authors[id]
+			}]],
+			["td", ["span", {class: "glyphicon glyphicon-minus disabled"}]],
+			["td", ["span", {class: "glyphicon glyphicon-floppy-disk disabled"}]]
+	]]);
+	self.appendChild(bar);
+	console.log(self);
 }
 
 function deactivate() {
@@ -152,4 +178,5 @@ function deactivate() {
 	var target = document.getElementById(active_comment);
 	target.className = target.className.replace("active-comment", "");
 	active_comment = null;
+	document.getElementById("commentButtons").outerHTML = "";
 }
