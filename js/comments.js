@@ -15,8 +15,6 @@ refresh = function(cb) {
 			var op = data[0].data.children[0].data,
 				replies = data[1].data.children.map(x => x.data);
 
-			console.log(op);
-
 			document.getElementById("post-subreddit").textContent = 
 				document.getElementById("header").textContent = op.subreddit;
 			document.getElementById("post-domain").textContent = op.domain;
@@ -43,6 +41,7 @@ refresh = function(cb) {
 			document.getElementById("hrefAuthor").href = "./user.html?name=" + op.author;
 
 			var items = ["div"];
+			// todo: nest using html children
 			var traverse = (reply, level) => {
 				var styleString = "margin-left: " + (level-1) * 5 + "px; border-left: 5px solid ";
 				switch (level) {
@@ -102,7 +101,12 @@ refresh = function(cb) {
 							reply.score + "pts "
 						], [
 							"span", {class: "comment-date"},
-							jQuery.timeago(new Date(reply.created * 1000))
+							jQuery.timeago(new Date(reply.created * 1000)) + " "
+						], [
+							"span", {
+								class: reply.controversiality ? "glyphicon glyphicon-fire" : "hide",
+								style: "color: orange"
+							}
 						], [
 							"div", {class: "comment-content"},
 							htmlDecode(reply.body_html)
