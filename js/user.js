@@ -29,7 +29,7 @@ function toPost(post) {
 				"td", {colspan: 3},
 				[
 					"a", {
-						href: "./comments.html?id=" + post.id,
+						href: "./comments.html?id=" + post.link_id.substr(3) + "#" + post.id,
 						class: "title"
 					},
 					[
