@@ -1,4 +1,5 @@
 var path = "http://www.reddit.com/" + parameters.id + ".json",
+	cid = parameters.cid,
 	authors = []; // Global, so that it can be reused for the buttons
 
 // https://gist.github.com/green-flash/8c9ac15f48291ab0524b

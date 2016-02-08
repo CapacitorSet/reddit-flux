@@ -1,0 +1,13 @@
+{
+	"name": "reddit-flux",
+	"scripts": {
+		"prepublish": "npm dedupe",
+		"make-html": "node node_modules/jade/bin/jade .",
+		"make-js": "node node_modules/babel-cli/bin/babel devjs --out-dir js"
+	},
+	"dependencies": {
+		"jade": "*",
+		"babel-cli": "^6.0.0",
+		"babel-preset-es2015": "*"
+	}
+}

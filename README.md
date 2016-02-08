@@ -5,8 +5,9 @@ A mobile HTML client for Reddit
 # Build instructions
 
 ```
-npm install -g jade --production
-jade index.jade
+npm install --production --loglevel info
+npm run make-html
+npm run make-js
 ```
 
 # Usage
