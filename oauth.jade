@@ -1,0 +1,37 @@
+doctype html
+html
+	head
+		meta(charset="utf-8")
+		link(rel="stylesheet",href="css/bootstrap.min.css")
+		link(rel="stylesheet",href="css/index.css")
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		title Reddit Flux
+	body.container-fluid
+
+		a(href="https://ssl.reddit.com/api/v1/authorize?state=r&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth.html&response_type=code&client_id=uKBSIfai8-jOxg&duration=temporary&scope=identity") Click here to get a 1-hour token.
+
+		script(type="text/javascript" src="js/jquery-2.2.0.min.js")
+		script(type="text/javascript" src="js/bootstrap.min.js")
+		script(type="text/javascript" src="js/main.js")
+		script.
+			var redirect_uri = "http://localhost:8000/oauth.html";
+			// Was there an error getting permission (eg. permission denied)?
+			if (parameters.error) {
+				alert("Error: " + parameters.error);
+				throw Error("Couldn't get the auth token");
+			}
+			var code = parameters.code;
+			console.log("Code: " + code);
+			console.log(code, redirect_uri);
+			// Fetch the authorization code from Reddit and store it
+			ajax.post("https://ssl.reddit.com/api/v1/access_token", {
+				"grant_type": "authorization_code",
+				"code": code,
+				"redirect_uri": redirect_uri,
+				"scope": "identity"
+			}, function(data) {
+				data = JSON.parse(data);
+				document.cookie = "access_token=" + data.access_token
+				console.log(data);
+			});

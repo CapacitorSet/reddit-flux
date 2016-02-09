@@ -1,0 +1,24 @@
+doctype html
+html
+	head
+		meta(charset="utf-8")
+		link(rel="stylesheet",href="css/bootstrap.min.css")
+		link(rel="stylesheet",href="css/index.css")
+		meta(http-equiv="X-UA-Compatible" content="IE=edge")
+		meta(name="viewport" content="width=device-width, initial-scale=1")
+		title Reddit Flux
+	body.container-fluid
+
+		a(href="https://ssl.reddit.com/api/v1/authorize?state=r&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth.html&response_type=code&client_id=uKBSIfai8-jOxg&duration=temporary&scope=identity") OAuth link
+
+		script(type="text/javascript" src="js/jquery-2.2.0.min.js")
+		script(type="text/javascript" src="js/bootstrap.min.js")
+		script(type="text/javascript" src="js/main.js")
+		script.
+			var token = getAccessToken();
+			// Fetch some example data
+			ajax.get("https://oauth.reddit.com/api/v1/me", {
+			}, "bearer " + token, function(data) {
+				data = JSON.parse(data);
+				console.log(data);
+			});
