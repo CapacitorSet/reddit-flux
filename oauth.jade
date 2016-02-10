@@ -7,31 +7,24 @@ html
 		meta(http-equiv="X-UA-Compatible" content="IE=edge")
 		meta(name="viewport" content="width=device-width, initial-scale=1")
 		title Reddit Flux
-	body.container-fluid
+	body.container-fluid.text-center
 
-		a(href="https://ssl.reddit.com/api/v1/authorize?state=r&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth.html&response_type=code&client_id=uKBSIfai8-jOxg&duration=temporary&scope=identity") Click here to get a 1-hour token.
+		h1 Login
+
+		p.
+			To login, click "authorize" below.
+
+		a.btn.btn-default#tokenLink Authorize
 
 		script(type="text/javascript" src="js/jquery-2.2.0.js")
 		script(type="text/javascript" src="js/bootstrap.js")
 		script(type="text/javascript" src="js/main.js")
 		script.
-			var redirect_uri = "http://localhost:8000/oauth.html";
+			var redirect_uri = "http://localhost:8000/api.html";
+			var client_id = "uKBSIfai8-jOxg";
+			document.getElementById("tokenLink").href = "https://ssl.reddit.com/api/v1/authorize?state=r&redirect_uri=" + encodeURIComponent(redirect_uri) + "&response_type=code&client_id=" + encodeURIComponent(client_id) + "&duration=permanent&scope=identity"
 			// Was there an error getting permission (eg. permission denied)?
 			if (parameters.error) {
 				alert("Error: " + parameters.error);
 				throw Error("Couldn't get the auth token");
 			}
-			var code = parameters.code;
-			console.log("Code: " + code);
-			console.log(code, redirect_uri);
-			// Fetch the authorization code from Reddit and store it
-			ajax.post("https://ssl.reddit.com/api/v1/access_token", {
-				"grant_type": "authorization_code",
-				"code": code,
-				"redirect_uri": redirect_uri,
-				"scope": "identity"
-			}, function(data) {
-				data = JSON.parse(data);
-				document.cookie = "access_token=" + data.access_token
-				console.log(data);
-			});

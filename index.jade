@@ -24,6 +24,7 @@ html
 					ul.nav.navbar-nav.navbar-right
 						li: a(onclick="refresh();") Refresh
 						li: a(href="#" data-toggle="modal" data-target="#myModal") Go to subreddit
+						li: a(href="./oauth.html")#userHref Log in
 
 		.modal.fade#myModal(tabindex='-1', role='dialog')
 			.modal-dialog
@@ -46,3 +47,16 @@ html
 		script(type="text/javascript" src="js/timeago.js")
 		script(type="text/javascript" src="js/main.js")
 		script(type="text/javascript" src="js/index.js")
+		script.
+			if (getAccessToken()) {
+				var token = getAccessToken();
+				// Fetch some example data
+				ajax.get("https://oauth.reddit.com/api/v1/me", {
+				}, "bearer " + token, function(data) {
+					data = JSON.parse(data);
+					console.log(data);
+					var name = data.name;
+					document.getElementById("userHref").textContent = data.name;
+					document.getElementById("userHref").href = "./user.html?name=" + data.name;
+				});
+			}

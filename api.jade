@@ -9,16 +9,45 @@ html
 		title Reddit Flux
 	body.container-fluid
 
-		a(href="https://ssl.reddit.com/api/v1/authorize?state=r&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth.html&response_type=code&client_id=uKBSIfai8-jOxg&duration=temporary&scope=identity") OAuth link
+		a(href="./oauth.html") Click here to request a new token
+
+		h1 Your data
+
+		tt#field
 
 		script(type="text/javascript" src="js/jquery-2.2.0.js")
 		script(type="text/javascript" src="js/bootstrap.js")
 		script(type="text/javascript" src="js/main.js")
 		script.
-			var token = getAccessToken();
-			// Fetch some example data
-			ajax.get("https://oauth.reddit.com/api/v1/me", {
-			}, "bearer " + token, function(data) {
-				data = JSON.parse(data);
-				console.log(data);
-			});
+			var redirect_uri = "http://localhost:8000/api.html";
+			var client_id = "uKBSIfai8-jOxg";
+			function callback() {
+				var token = getAccessToken();
+				// Fetch some example data
+				ajax.get("https://oauth.reddit.com/api/v1/me", {
+				}, "bearer " + token, function(data) {
+					document.getElementById("field").textContent = data;
+					data = JSON.parse(data);
+					console.log(data);
+				});
+
+			}
+			if (getAccessToken()) {
+				callback();
+			} else {
+				var code = parameters.code;
+				console.log("Code: " + code);
+				console.log(code, redirect_uri);
+				// Fetch the authorization code from Reddit and store it
+				ajax.post("https://ssl.reddit.com/api/v1/access_token", {
+					"grant_type": "authorization_code",
+					"code": code,
+					"redirect_uri": redirect_uri,
+					"scope": "identity"
+				}, "Basic " + btoa(client_id + ":"), function(data) {
+					data = JSON.parse(data);
+					document.cookie = "access_token=" + data.access_token
+					console.log(data);
+					callback();
+				});
+			}
