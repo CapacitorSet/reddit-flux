@@ -38,8 +38,8 @@ ajax.send = function (url, auth, callback, method, data, async) {
 		if (x.readyState == 4) callback(x.responseText);
 	};
 	if (auth) {
+		if (typeof auth !== typeof "string") throw new Error();
 		x.setRequestHeader("Authorization", auth);
-		console.log(auth);
 	}
 //	x.setRequestHeader("Authorization", "Basic " + btoa("uKBSIfai8-jOxg:"));
 	if (method == 'POST')
