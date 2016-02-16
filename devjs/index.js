@@ -12,6 +12,7 @@ refresh = function() {
 	ajax.get(
 		path,
 		{},
+		"",
 		data => {
 			data = JSON.parse(data);
 			posts = data.data.children;

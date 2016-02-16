@@ -37,9 +37,11 @@ ajax.send = function (url, auth, callback, method, data, async) {
 	x.onreadystatechange = function () {
 		if (x.readyState == 4) callback(x.responseText);
 	};
-	if (auth) {
-		if (typeof auth !== typeof "string") throw new Error();
-		x.setRequestHeader("Authorization", auth);
+	if (typeof auth === typeof "string") {
+		if (auth)
+			x.setRequestHeader("Authorization", auth);
+	} else {
+		throw new Error("Authorization (" + JSON.stringify(auth) + ") is not a string");
 	}
 //	x.setRequestHeader("Authorization", "Basic " + btoa("uKBSIfai8-jOxg:"));
 	if (method == 'POST')

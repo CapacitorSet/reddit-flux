@@ -11,7 +11,7 @@ refresh = function(cb) {
 	ajax.get(
 		path,
 		{},
-		null,
+		"",
 		data => {
 			data = JSON.parse(data);
 
